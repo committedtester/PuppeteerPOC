@@ -5,9 +5,11 @@ enum ElementType {
 
 module.exports = {
 
-customClick : async function(elementType=ElementType.CSS, selector:string ){
+    ElementType:ElementType,
 
-if(elementType=ElementType.CSS){
+click : async function(elementType:ElementType, selector:string ){
+
+if(elementType==ElementType.CSS){
     try {
         await page.waitForSelector(selector);
         await page.click(selector);
@@ -16,7 +18,7 @@ if(elementType=ElementType.CSS){
          throw new error(`Could not click on CSS selector: ${selector}`);         
      }
 }
-if (elementType=ElementType.XPATH){
+if (elementType==ElementType.XPATH){
     try {
         await page.waitForXPath(selector);
         const [button] = await page.$x(selector);
