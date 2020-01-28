@@ -6,7 +6,7 @@ describe('TodoMVC Test', () => {
       let todosPage;
 
     beforeAll(async () => {
-      jest.setTimeout(10000);
+      jest.setTimeout(40000);
       mainPage = new MainPage();
       todosPage = new TodosPage();       
     })
@@ -23,8 +23,8 @@ describe('TodoMVC Test', () => {
       expect(await page.title()).toMatch("Polymer • TodoMVC"); 
       await todosPage.typeNewTodo("First Todo");
       await todosPage.typeNewTodo("Second Todo");
-
-      //await page.waitFor(3000)
+      //await todosPage.editTodo("2","new text");
+      
 
     })
   })

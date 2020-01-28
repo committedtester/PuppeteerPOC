@@ -1,4 +1,5 @@
 import BasePage from '../PageMethods/Basepage';
+import ElementHandle from 'puppeteer'; 
 
 export enum ElementType{
     NONXPATH,
@@ -6,46 +7,58 @@ export enum ElementType{
 }
 
 export default class PuppeteerActions extends BasePage{
-    async click (elementType:ElementType, selector:string ){
 
-        if(elementType==ElementType.NONXPATH){
+    async GetElement(elementText:string){
+        await page.waitForSelector(elementText);
+        let element= await page.$(elementText);        
+        return element;
+    }
+
+    async GetXpathElement(elementText:string){
+        await page.waitForXPath(elementText);
+        const xpathElement = await page.$x(elementText);
+        if (xpathElement==null){
+            fail("Element Not Found");
+        }
+        return xpathElement;
+    }
+
+    async click (element){
             try {
-                await page.waitForSelector(selector);
-                await page.click(selector);
-         
+                element.click();         
              } catch (error) {
-                 throw new error(`Could not click on NON XPATH selector: ${selector}`);         
+                 throw new error(`Could not click ${element}`);         
              }
         }
-        if (elementType==ElementType.XPATH){
-            try {
-                await page.waitForXPath(selector);
-                const [xpathElement] = await page.$x(selector);
-                await xpathElement.click();
-            } catch (error) {
-                throw new Error(`Could not click on the XPath: ${selector}`);
-            }
-        }  
-        }
-        
-        async type(elementType:ElementType, selector: string, inputText:string){
-            if(elementType==ElementType.NONXPATH){
+       
+        async multiClick (element, clickCount:number)
+            {
                 try {
-                    await page.waitForSelector(selector);
-                    await page.type(selector,inputText);
-             
+                    await new Promise(x => setTimeout(x, 1000));
+                    await element.click({ clickCount: clickCount })        
                  } catch (error) {
-                     throw new error(`Could not type text into NON XPATH selector: ${selector}`);         
+                     throw new error(`Could not click ${element}`);         
                  }
             }
-            if (elementType==ElementType.XPATH){
+
+        async keyboardEntry (element, inputText:string){
+            try{
+                await element.press(inputText);
+            } 
+            catch (error) {
+                throw new error(`Could not type text into element: ${element}`);         
+            }            
+        }        
+        
+        
+        async getText (elementType:ElementType, selector: string){
+            if(elementType==ElementType.NONXPATH){
                 try {
-                    await page.waitForXPath(selector);
-                    const [xpathElement] = await page.$x(selector);
-                    await xpathElement.type(inputText);
-                } catch (error) {
-                    throw new Error(`Could not type text into XPath selector: ${selector}`);
+                    return page.$eval(selector, e => e.innerHTML)
                 }
-            }  
+                    catch (error) {
+                        throw new error(`Could not get text from NON XPATH selector: ${selector}`);         
+                    }
         }
+    }
 }

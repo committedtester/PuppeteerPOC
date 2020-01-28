@@ -1,4 +1,4 @@
-export default class BasePage {
+export default class BasePage {  
 
 async wait(time:number){
     await page.waitFor(time);

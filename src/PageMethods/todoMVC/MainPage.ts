@@ -7,13 +7,17 @@ export default class MainPage extends BasePage{
     TodoURL= 'http://todomvc.com/';
     TodoURLPageTitle= 'TodoMVC';
 
-    polymerLink ="//div[@class='js-app-list']//a[text() = 'Polymer']";
-
     puppeteerActions = new PuppeteerActions;
     basePage = new BasePage();
 
+    //polymerLink ="//div[@class='js-app-list']//a[text() = 'Polymer']";
+
+    async polymerLinkElement() {return await this.puppeteerActions.GetXpathElement("//div[@class='js-app-list']//a[text() = 'Polymer']");}
+
+    
+
     async clickPolymerLink(){
-        await this.puppeteerActions.click(ElementType.XPATH,this.polymerLink);
+        await this.puppeteerActions.click(await this.polymerLinkElement());
         await page.waitForNavigation({ waitUntil: 'networkidle0' });
     }
 
