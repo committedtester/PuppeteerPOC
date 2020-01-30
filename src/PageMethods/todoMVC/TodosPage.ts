@@ -1,9 +1,8 @@
-import BasePage from '../BasePage';
 import PuppeteerActions from '../PuppeteerActions'
 import {ElementType} from '../PuppeteerActions';
 
 
-export default class TodosPage extends BasePage{
+export default class TodosPage {
 
     puppeteerActions = new PuppeteerActions;
 

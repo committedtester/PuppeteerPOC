@@ -1,4 +1,4 @@
-import BasePage from '../PageMethods/Basepage';
+
 import ElementHandle from 'puppeteer'; 
 
 export enum ElementType{
@@ -6,7 +6,24 @@ export enum ElementType{
     XPATH
 }
 
-export default class PuppeteerActions extends BasePage{
+export default class PuppeteerActions {
+
+    async wait(time:number){
+        await page.waitFor(time);
+    }
+    
+    async getTitle(){
+        return await page.title();
+    }
+    
+    async getUrl(){
+        return await page.url();
+    }
+    
+    async loadURL(url:string){
+        await page.goto(url);
+    }
+    
 
     async GetElement(elementText:string){
         await page.waitForSelector(elementText);
@@ -16,7 +33,7 @@ export default class PuppeteerActions extends BasePage{
 
     async GetXpathElement(elementText:string){
         await page.waitForXPath(elementText);
-        const xpathElement = await page.$x(elementText);
+        const [xpathElement] = await page.$x(elementText);
         if (xpathElement==null){
             fail("Element Not Found");
         }
@@ -25,6 +42,7 @@ export default class PuppeteerActions extends BasePage{
 
     async click (element){
             try {
+                
                 element.click();         
              } catch (error) {
                  throw new error(`Could not click ${element}`);         
@@ -43,7 +61,7 @@ export default class PuppeteerActions extends BasePage{
 
         async keyboardEntry (element, inputText:string){
             try{
-                await element.press(inputText);
+                await element.type(inputText);
             } 
             catch (error) {
                 throw new error(`Could not type text into element: ${element}`);         
