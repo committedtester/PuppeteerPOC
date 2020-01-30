@@ -15,8 +15,13 @@ export default class TodosPage extends BasePage{
     }
 
     async editTodo(todoIndex:number, updatedTodoText:string){
-        let xpath:string = this.todoEditSelection.replace('index',this.todoEditSelection);
-        await this.puppeteerActions.click(ElementType.XPATH,xpath);
+        let xpath:string = this.todoEditSelection.replace('index',todoIndex.toString());
+        await this.puppeteerActions.click(ElementType.XPATH,xpath,2);
+
+        const xpathElement = await page.$x(xpath);
+        let text = await xpathElement[0].getProperty('textContent');
+        
+        await this.puppeteerActions.type(ElementType.XPATH,xpath,"updatedTodoText");
     }
 }
 

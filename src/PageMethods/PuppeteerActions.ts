@@ -6,12 +6,13 @@ export enum ElementType{
 }
 
 export default class PuppeteerActions extends BasePage{
-    async click (elementType:ElementType, selector:string ){
+    async click (elementType:ElementType, selector:string, clickCount:number=1 ){
 
         if(elementType==ElementType.NONXPATH){
             try {
                 await page.waitForSelector(selector);
-                await page.click(selector);
+                await new Promise(x => setTimeout(x, 1000));
+                await page.click(selector,{ clickCount: clickCount });
          
              } catch (error) {
                  throw new error(`Could not click on NON XPATH selector: ${selector}`);         
@@ -21,7 +22,8 @@ export default class PuppeteerActions extends BasePage{
             try {
                 await page.waitForXPath(selector);
                 const [xpathElement] = await page.$x(selector);
-                await xpathElement.click();
+                await new Promise(x => setTimeout(x, 1000));
+                await xpathElement.click({ clickCount: clickCount });
             } catch (error) {
                 throw new Error(`Could not click on the XPath: ${selector}`);
             }

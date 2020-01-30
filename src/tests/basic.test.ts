@@ -23,8 +23,8 @@ describe('TodoMVC Test', () => {
       expect(await page.title()).toMatch("Polymer • TodoMVC"); 
       await todosPage.typeNewTodo("First Todo");
       await todosPage.typeNewTodo("Second Todo");
-
-      //await page.waitFor(3000)
+      await todosPage.editTodo(2,"updatedTodo");
+      await page.screenshot({path: 'editedTodo.png'});
 
     })
   })
