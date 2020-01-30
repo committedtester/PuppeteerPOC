@@ -4,5 +4,5 @@ module.exports = {
 		headless: false,
 		args: ['--disable-infobars'],
 	},
-	browserContext: 'default'
+	browserContext: 'default'  //or 'incognito'
 };
