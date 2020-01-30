@@ -1,9 +1,8 @@
-import BasePage from '../BasePage';
 import PuppeteerActions from '../PuppeteerActions'
 import {ElementType} from '../PuppeteerActions';
 
 
-export default class TodosPage extends BasePage{
+export default class TodosPage{
 
     todoInput ="#new-todo";
     todoEditSelection ='//td-todos//ul[@class="todo-list style-scope td-todos"]/li[index]/div/label';
@@ -15,13 +14,18 @@ export default class TodosPage extends BasePage{
     }
 
     async editTodo(todoIndex:number, updatedTodoText:string){
-        let xpath:string = this.todoEditSelection.replace('index',todoIndex.toString());
-        await this.puppeteerActions.click(ElementType.XPATH,xpath,2);
+        const xpath:string = this.todoEditSelection.replace('index',todoIndex.toString());
+        await this.puppeteerActions.click(ElementType.XPATH,xpath,2);       
+ 
+        let text:string= await this.puppeteerActions.getText(ElementType.XPATH,xpath);
 
-        const xpathElement = await page.$x(xpath);
-        let text = await xpathElement[0].getProperty('textContent');
-        
-        await this.puppeteerActions.type(ElementType.XPATH,xpath,"updatedTodoText");
+        const [xpathElement] = await page.$x(xpath);
+        await xpathElement.focus();
+
+        for (let index = 0; index < text.length; index++) {
+            await page.keyboard.press("Backspace");           
+        }
+        await this.puppeteerActions.type(ElementType.XPATH,xpath,updatedTodoText);
     }
 }
 

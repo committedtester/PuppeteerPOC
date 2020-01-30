@@ -1,8 +1,7 @@
-import BasePage from '../BasePage';
 import PuppeteerActions from '../PuppeteerActions'
 import {ElementType} from '../PuppeteerActions';
 
-export default class MainPage extends BasePage{
+export default class MainPage {
 
     TodoURL= 'http://todomvc.com/';
     TodoURLPageTitle= 'TodoMVC';
@@ -10,7 +9,6 @@ export default class MainPage extends BasePage{
     polymerLink ="//div[@class='js-app-list']//a[text() = 'Polymer']";
 
     puppeteerActions = new PuppeteerActions;
-    basePage = new BasePage();
 
     async clickPolymerLink(){
         await this.puppeteerActions.click(ElementType.XPATH,this.polymerLink);
@@ -18,7 +16,7 @@ export default class MainPage extends BasePage{
     }
 
     async openTodo(){
-        await this.loadURL(this.TodoURL);
+        await this.puppeteerActions.loadURL(this.TodoURL);
 
     }
 
