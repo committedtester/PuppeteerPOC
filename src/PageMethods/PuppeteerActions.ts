@@ -25,14 +25,9 @@
         await element.click({ clickCount: clickCount }) 
     }
 
-    export const keyboardEntry = async (element, inputText:string) => await element.type(inputText);
-
-    export const getText = async (elementString:string) =>{
-        return page.$eval(elementString, e => e.innerHTML)
-    }     
+    export const keyboardEntry = async (element, inputText:string) => await element.type(inputText); 
     
-    export const getXpathText = async (elementString:string) =>{
-        let [element] = await page.$x(elementString);
+    export const getText = async (element) =>{
         return await page.evaluate(element => element.textContent, element);
     }
     

@@ -1,14 +1,14 @@
 {
   "name": "puppeteerpoc",
   "version": "1.0.0",
-  "description": "",
+  "description": "POC Framework for Puppeteer + Jest + TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
   },
-  "author": "Aaron McKay",
+  "author": "Aaron McKay (Committed Tester)",
   "license": "ISC",
   "devDependencies": {
     "@types/expect-puppeteer": "^4.4.0",

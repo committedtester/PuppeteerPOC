@@ -1,4 +1,4 @@
-import {getElement, keyboardEntry, multiClick, getXpathElement,getXpathText} from '../PuppeteerActions'
+import {getElement, keyboardEntry, multiClick, getXpathElement,getText} from '../PuppeteerActions'
 
 
 export const identifiers = {
@@ -20,7 +20,7 @@ export const editTodo = async (todoIndex:number, updatedTodoText:string) =>{
     const xpathElement = await getXpathElement(xpath);
     await multiClick(xpathElement,2);       
 
-    let text:string= await getXpathText(xpath);
+    let text:string= await getText(xpathElement);
     await xpathElement.focus();
 
     for (let index = 0; index < text.length; index++) {
