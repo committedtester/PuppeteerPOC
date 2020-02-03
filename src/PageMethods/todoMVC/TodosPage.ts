@@ -1,4 +1,4 @@
-import {getElement, keyboardEntry, multiClick} from '../PuppeteerActions'
+import {getElement, keyboardEntry, multiClick, getXpathElement,getXpathText} from '../PuppeteerActions'
 
 
 export const identifiers = {
@@ -15,12 +15,19 @@ export const typeNewTodo = async (newTodoText:string) =>{
     await page.keyboard.press('Enter');
 }
 
-export const editTodo = async (todoIndexTopDown:string, newTodoText:string) => {
-    let xpath:string = identifiers.todoEditSelection.replace('index',todoIndexTopDown);
-    await multiClick(xpath,2);
-    await keyboardEntry(todoEditTextElement,newTodoText)
-    //await page.waitFor(5000);
-}
-        
+export const editTodo = async (todoIndex:number, updatedTodoText:string) =>{
+    const xpath:string = identifiers.todoEditSelection.replace('index',todoIndex.toString());
+    const xpathElement = await getXpathElement(xpath);
+    await multiClick(xpathElement,2);       
+
+    let text:string= await getXpathText(xpath);
+    await xpathElement.focus();
+
+    for (let index = 0; index < text.length; index++) {
+        await page.keyboard.press("Backspace");           
+    }
+    await keyboardEntry(xpathElement,updatedTodoText);
+    await page.keyboard.press('Enter');
+}       
 
 

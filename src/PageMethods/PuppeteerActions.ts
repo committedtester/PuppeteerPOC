@@ -28,7 +28,11 @@
     export const keyboardEntry = async (element, inputText:string) => await element.type(inputText);
 
     export const getText = async (elementString:string) =>{
-        //Currently only works for non-xpath element strings
         return page.$eval(elementString, e => e.innerHTML)
-    }       
+    }     
+    
+    export const getXpathText = async (elementString:string) =>{
+        let [element] = await page.$x(elementString);
+        return await page.evaluate(element => element.textContent, element);
+    }
     
