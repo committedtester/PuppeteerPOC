@@ -1,23 +1,13 @@
-import PuppeteerActions from '../PuppeteerActions'
-import {ElementType} from '../PuppeteerActions';
+import {getXpathElement,click} from '../PuppeteerActions'
 
-export default class MainPage {
+export const identifiers = {
+    TodoURLPageTitle:'TodoMVC',
+    PolymerLink: "//div[@class='js-app-list']//a[text() = 'Polymer']"
+}
 
-    TodoURL= 'http://todomvc.com/';
-    TodoURLPageTitle= 'TodoMVC';
+const polymerLinkElement = async () => await getXpathElement(identifiers.PolymerLink);
 
-    polymerLink ="//div[@class='js-app-list']//a[text() = 'Polymer']";
-
-    puppeteerActions = new PuppeteerActions;
-
-    async clickPolymerLink(){
-        await this.puppeteerActions.click(ElementType.XPATH,this.polymerLink);
-        await page.waitForNavigation({ waitUntil: 'networkidle0' });
-    }
-
-    async openTodo(){
-        await this.puppeteerActions.loadURL(this.TodoURL);
-
-    }
-
+export const clickPolymerLink = async() => {
+    await click(await polymerLinkElement());
+    await page.waitForNavigation({ waitUntil: 'networkidle0' });
 }
