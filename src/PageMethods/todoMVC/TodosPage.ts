@@ -1,36 +1,26 @@
-import PuppeteerActions from '../PuppeteerActions'
-import {ElementType} from '../PuppeteerActions';
+import {getElement, keyboardEntry, multiClick} from '../PuppeteerActions'
 
 
-export default class TodosPage {
-
-    puppeteerActions = new PuppeteerActions;
-
-    pageElements = {
-        todoInput : this.puppeteerActions.GetElement("#new-todo"),
-        todoEditText :"#edit"
-    }
-        
-    // todoInput:Element =this.puppeteerActions.GetElement("#new-todo");
-    // todoEditSelection =this.puppeteerActions.GetXpathElement('//td-todos//ul[@class="todo-list style-scope td-todos"]/li[index]/div/label');
-    // todoEditText =this.puppeteerActions.GetElement("#edit");   
-
-    async todoInputElement() {return await this.puppeteerActions.GetElement("#new-todo");}
-
-
-
-    async typeNewTodo(newTodoText:string){
-        await this.puppeteerActions.keyboardEntry(await this.todoInputElement(),newTodoText);
-        await page.keyboard.press('Enter');
+export const identifiers = {
+        todoInput : "#new-todo",
+        todoEditText :"#edit",
+        todoEditSelection:'//td-todos//ul[@class="todo-list style-scope td-todos"]/li[index]/div/label'
     }
 
-    // async editTodo(todoIndexTopDown : string, newTodoText:string){
-    //     let xpath:string = this.todoEditSelection.replace('index',todoIndexTopDown);
-        
-    //     await this.puppeteerActions.multiClick(ElementType.XPATH,xpath,2);
+const todoInputElement = async () => await getElement(identifiers.todoInput);
+const todoEditTextElement = async() => await getElement(identifiers.todoEditText);
 
-    //     await this.puppeteerActions.type(ElementType.NONXPATH,this.todoEditText,newTodoText)
-    //     await page.waitFor(5000);
-    // }
+export const typeNewTodo = async (newTodoText:string) =>{
+    await keyboardEntry(await todoInputElement(),newTodoText);
+    await page.keyboard.press('Enter');
 }
+
+export const editTodo = async (todoIndexTopDown:string, newTodoText:string) => {
+    let xpath:string = identifiers.todoEditSelection.replace('index',todoIndexTopDown);
+    await multiClick(xpath,2);
+    await keyboardEntry(todoEditTextElement,newTodoText)
+    //await page.waitFor(5000);
+}
+        
+
 
