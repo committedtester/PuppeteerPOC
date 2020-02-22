@@ -1,5 +1,5 @@
-import {getElement, keyboardEntry, multiClick, getXpathElement,getText} from '../PuppeteerActions'
-
+import {getElement, keyboardEntry, multiClick, getXpathElement,getText} from '../../helperMethods/ElementActions'
+import { waitForText} from '../../helperMethods/SelectorActions'
 
 export const identifiers = {
         todoInput : "#new-todo",
@@ -28,6 +28,10 @@ export const editTodo = async (todoIndex:number, updatedTodoText:string) =>{
     }
     await keyboardEntry(xpathElement,updatedTodoText);
     await page.keyboard.press('Enter');
-}       
+}    
+
+export const waitForTodoText = async (text:string) =>{
+    await waitForText('body',text);
+}
 
 

@@ -1,11 +1,3 @@
-   export const wait = async (time:number) => await page.waitFor(time);
-
-   export const getTitle = async () => await page.title();
-
-   export const getUrl = async () => await page.url();
-
-   export const loadURL = async (url:string) => await page.goto(url);
-    
    export const getElement = async (elementText:string) => {
         await page.waitForSelector(elementText);
         let element= await page.$(elementText); 
@@ -18,7 +10,9 @@
         return xpathElement;
     }
 
-    export const click = async (element) => element.click();         
+    export const click = async (element) => element.click();  
+    
+    export const rightClick = async (element) => element.click({button: "right"})
 
     export const multiClick = async (element, clickCount:number) =>{
         await new Promise(x => setTimeout(x, 1000));
